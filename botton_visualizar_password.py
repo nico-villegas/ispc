@@ -1,14 +1,19 @@
 # Test Case 3
 # "[PIL QA 2022] [SPRINT 3] Funcionalidad del botón visualizar contraseña"
 
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
 import time
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 
-# Ingresa a la page
+options = Options()
+options.add_experimental_option('excludeSwitches', ['enable-logging'])
+#Ingresa a la page
 
-driver = webdriver.Edge(executable_path=r"edgedriver_win64\msedgedriver.exe")
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 driver.get("https://shop.samsung.com/ar/")
 time.sleep(5)
 
@@ -17,11 +22,11 @@ time.sleep(5)
 webdriver.ActionChains(driver).send_keys(Keys.ESCAPE).perform()
 time.sleep(5)
 
-# Ingresa a la págna de login
+# Ingresa a la página de login
 
 login = driver.find_element(By.XPATH, "/html/body/div[2]/div/div[1]/div/div[2]/div[2]/div/div/div[1]/a[2]")
 login.click()
-time.sleep(10)
+time.sleep(20)
 
 # Cierra el popup
 
@@ -35,7 +40,7 @@ usuario.send_keys("nicovillegas650@gmail.com")
 usuario.send_keys(Keys.TAB)
 time.sleep(5)
 
-#Rellena el campo "Contraseña"
+# Rellena el campo "Contraseña"
 
 contrasenia = driver.find_element(By.XPATH, "/html/body/div[2]/div/div[1]/div/div[2]/div/div/div/div[2]/div/div/form/div[2]/div/label/div/input")
 contrasenia.send_keys("Nico1234")
@@ -45,7 +50,14 @@ time.sleep(5)
 
 ver_contra = driver.find_element(By.XPATH, "/html/body/div[2]/div/div[1]/div/div[2]/div/div/div/div[2]/div/div/form/div[2]/div/label/div/span")
 ver_contra.click()
-
 time.sleep(5)
+
+# Test
+text_esperado = "text"
+type = driver.find_element(By.XPATH, "/html/body/div[2]/div/div[1]/div/div[2]/div/div/div/div[2]/div/div/form/div[2]/div/label/div/input").get_attribute("type")
+assert type == text_esperado, "No se muestra mensaje de validacion"
+print("_________________ \n")
+print("Pass \n")
+print("_________________")
 
 driver.close()

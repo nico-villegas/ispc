@@ -1,14 +1,19 @@
 # Test Case 2
 #"[PIL QA 2022] [SPRINT 3] La contraseña esta enmascarada cuando se escribe en el campo 'Contraseña' "  
 
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
 import time
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 
-# Entra a la page
+options = Options()
+options.add_experimental_option('excludeSwitches', ['enable-logging'])
+#Ingresa a la page
 
-driver = webdriver.Edge(executable_path=r"edgedriver_win64\msedgedriver.exe")
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 driver.get("https://shop.samsung.com/ar/")
 time.sleep(5)
 
@@ -40,5 +45,13 @@ time.sleep(5)
 contrasenia = driver.find_element(By.XPATH, "/html/body/div[2]/div/div[1]/div/div[2]/div/div/div/div[2]/div/div/form/div[2]/div/label/div/input")
 contrasenia.send_keys("Nico1234")
 time.sleep(5)
+
+# Test
+text_esperado = "password"
+type = driver.find_element(By.XPATH, "/html/body/div[2]/div/div[1]/div/div[2]/div/div/div/div[2]/div/div/form/div[2]/div/label/div/input").get_attribute("type")
+assert type == text_esperado, "No se muestra mensaje de validacion"
+print("_________________ \n")
+print("Pass \n")
+print("_________________")
 
 driver.close()
