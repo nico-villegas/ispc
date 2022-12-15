@@ -15,9 +15,9 @@ options.add_experimental_option('excludeSwitches', ['enable-logging'])
 
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 driver.get("https://shop.samsung.com/ar/")
-time.sleep(5)
+time.sleep(20)
 
-#Cierra el popup 
+#Cierra el popup
 webdriver.ActionChains(driver).send_keys(Keys.ESCAPE).perform()
 time.sleep(5)
 
